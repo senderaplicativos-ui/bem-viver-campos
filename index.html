@@ -31,6 +31,16 @@
             box-sizing: border-box;
         }
 
+        html {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -353,12 +363,13 @@
             margin-top: 80px;
             min-height: 90vh;
             background: linear-gradient(135deg, rgba(30, 58, 95, 0.95) 0%, rgba(44, 82, 130, 0.9) 100%),
-                        url('https://bemvivercampos.urbaloteamentos.com.br/wp-content/uploads/2025/07/foto-bem-viver-campos-01.webp');
+                        url('images/empreendimento/foto-bem-viver-campos-01.webp');
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
             position: relative;
+            overflow: hidden;
         }
 
         .hero-container {
@@ -476,6 +487,7 @@
         .stats-bar {
             background: var(--secondary);
             padding: 40px 0;
+            overflow: hidden;
         }
 
         .stats-container {
@@ -507,6 +519,7 @@
         .about {
             padding: 100px 0;
             background: var(--light);
+            overflow: hidden;
         }
 
         .section-container {
@@ -610,6 +623,7 @@
         .gallery {
             padding: 100px 0;
             background: var(--white);
+            overflow: hidden;
         }
 
         .gallery-grid {
@@ -651,6 +665,7 @@
             padding: 100px 0;
             background: var(--secondary);
             color: var(--white);
+            overflow: hidden;
         }
 
         .location .section-header h2 {
@@ -720,6 +735,7 @@
         .contact {
             padding: 100px 0;
             background: linear-gradient(135deg, var(--light) 0%, #fff 100%);
+            overflow: hidden;
         }
 
         .contact-grid {
@@ -910,6 +926,7 @@
             background: var(--secondary);
             color: var(--white);
             padding: 60px 0 30px;
+            overflow: hidden;
         }
 
         .footer-container {
@@ -1065,13 +1082,34 @@
                 display: none;
             }
 
+            .header-container {
+                padding: 0 15px;
+            }
+
+            .hero-container {
+                padding: 60px 15px;
+            }
+
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-badge {
+                font-size: 0.8rem;
+                padding: 6px 15px;
             }
 
             .hero-features {
                 flex-direction: column;
                 gap: 15px;
+            }
+
+            .hero-feature {
+                font-size: 0.9rem;
             }
 
             .hero-buttons {
@@ -1080,14 +1118,81 @@
 
             .btn {
                 justify-content: center;
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+
+            .section-container {
+                padding: 0 15px;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-header p {
+                font-size: 0.95rem;
+            }
+
+            .about-grid {
+                gap: 30px;
+            }
+
+            .about-content h3 {
+                font-size: 1.4rem;
             }
 
             .about-features {
                 grid-template-columns: 1fr;
             }
 
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 150px;
+                gap: 10px;
+            }
+
+            .gallery-item[style*="grid-column: span 2"] {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .location-grid {
+                gap: 30px;
+            }
+
+            .location-info h3 {
+                font-size: 1.4rem;
+            }
+
             .location-advantages {
                 grid-template-columns: 1fr;
+            }
+
+            .donana-section {
+                padding: 20px 15px;
+            }
+
+            .donana-section h3 {
+                font-size: 1.4rem !important;
+            }
+
+            .donana-section p {
+                font-size: 0.95rem !important;
+            }
+
+            .contact-grid {
+                gap: 30px;
+            }
+
+            .contact-card,
+            .contact-form {
+                padding: 25px 20px;
+            }
+
+            .corretor-photo {
+                width: 100px;
+                height: 100px;
             }
 
             .form-row {
@@ -1096,12 +1201,76 @@
 
             .footer-grid {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
 
             .footer-bottom {
                 flex-direction: column;
                 gap: 20px;
                 text-align: center;
+            }
+
+            .popup-content {
+                margin: 15px;
+            }
+
+            .popup-body {
+                padding: 20px;
+            }
+
+            .popup-body h3 {
+                font-size: 1.4rem;
+            }
+
+            .popup-body p {
+                font-size: 0.9rem;
+            }
+
+            .popup-buttons {
+                gap: 10px;
+            }
+
+            .popup-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .floating-cta {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .floating-whatsapp {
+                width: 50px;
+                height: 50px;
+            }
+
+            .stats-container {
+                gap: 20px;
+            }
+
+            .stat-number {
+                font-size: 1.8rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 200px;
+            }
+
+            .gallery-item[style*="grid-column: span 2"] {
+                grid-column: span 1;
             }
         }
     </style>
