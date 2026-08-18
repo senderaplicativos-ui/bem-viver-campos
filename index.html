@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem Viver Campos | Lotes em Campos dos Goytacazes</title>
+    <meta name="description" content="Lotes residenciais de 160 a 250m² em bairro planejado em Campos dos Goytacazes. Infraestrutura completa e financiamento direto com a Urba.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --secondary: #1E3A5F;
+            --secondary-light: #2C5282;
+            --accent: #FFB800;
+            --white: #FFFFFF;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --dark: #212529;
+            --success: #28A745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll.animated.slide-in-left,
+        .animate-on-scroll.animated.slide-in-right {
+            transform: translateX(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+
+        /* Slide animations */
+        .slide-in-left {
+            transform: translateX(-50px);
+        }
+
+        .slide-in-left.animated {
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            transform: translateX(50px);
+        }
+
+        .slide-in-right.animated {
+            transform: translateX(0);
+        }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .popup-overlay.active {
+            display: flex;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .popup-close:hover {
+            background: var(--primary);
+        }
+
+        .popup-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .popup-body {
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .popup-body h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .popup-body p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .popup-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .popup-btn {
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .popup-btn-primary:hover {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+        }
+
+        .popup-btn-secondary {
+            background: white;
+            color: var(--secondary);
+        }
+
+        .popup-btn-secondary:hover {
+            background: var(--light);
+            transform: scale(1.02);
+        }
+
+        .popup-note {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .popup-note span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Carousel Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .header-cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.95) 0%, rgba(44, 82, 130, 0.9) 100%),
+                        url('https://bemvivercampos.urbaloteamentos.com.br/wp-content/uploads/2025/07/foto-bem-viver-campos-01.webp');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            color: var(--white);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .hero-features {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .hero-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light);
+            transform: translateY(-3px);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: var(--white);
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: var(--secondary);
+            padding: 40px 0;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: var(--white);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: var(--light);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-content h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .about-feature-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.8rem;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .about-image-badge {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .about-image-badge span {
+            display: block;
+        }
+
+        .about-image-badge .number {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 250px;
+            gap: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .gallery-item[style*="grid-column: span 2"] {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        /* Location Section */
+        .location {
+            padding: 100px 0;
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .location .section-header h2 {
+            color: var(--white);
+        }
+
+        .location .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .location-map {
+            border-radius: 20px;
+            overflow: hidden;
+            height: 400px;
+            background: var(--light);
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .location-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .location-advantages {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .location-advantage {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .location-advantage-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--light) 0%, #fff 100%);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-card {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .contact-card .subtitle {
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .corretor-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--light);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--secondary);
+            overflow: hidden;
+        }
+
+        .corretor-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .corretor-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .corretor-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .corretor-creci {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .corretor-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .contact-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-option {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            background: var(--light);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .contact-option:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .contact-option-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .contact-option:hover .contact-option-icon {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .contact-option-text {
+            flex: 1;
+        }
+
+        .contact-option-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .contact-option-value {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .contact-option:hover .contact-option-value {
+            color: var(--white);
+        }
+
+        .contact-form {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .contact-form h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .contact-form .subtitle {
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #E9ECEF;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about .logo-text {
+            color: var(--white);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-about p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+        }
+
+        .footer-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Floating CTA */
+        .floating-cta {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: none;
+        }
+
+        .floating-whatsapp {
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .floating-whatsapp:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .location-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-features {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .location-advantages {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-text">Bem <span>Viver</span></span>
+            </div>
+            <nav>
+                <a href="#sobre">Sobre</a>
+                <a href="#galeria">Galeria</a>
+                <a href="#localizacao">Localização</a>
+                <a href="#contato">Contato</a>
+            </nav>
+            <a href="https://wa.me/5522997944778" class="header-cta">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Falar no WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <span class="hero-badge animate-on-scroll">🚀 Lançamento em Campos dos Goytacazes</span>
+            <h1 class="animate-on-scroll delay-1">Seu Novo Lote no <span>Bem Viver Campos</span></h1>
+            <p class="hero-subtitle animate-on-scroll delay-2">Lotes residenciais de 160 a 250m² em bairro planejado com infraestrutura completa. Financiamento direto com a Urba.</p>
+
+            <div class="hero-features animate-on-scroll delay-3">
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">📍</div>
+                    <span>Estr. dos Ceramistas</span>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">🏗️</div>
+                    <span>160-250m²</span>
+                </div>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon">🌿</div>
+                    <span>Bairro Planejado</span>
+                </div>
+            </div>
+
+            <div class="hero-buttons animate-on-scroll delay-4">
+                <a href="#contato" class="btn btn-primary">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Garantir Meu Lote
+                </a>
+                <a href="https://wa.me/5522997944778" class="btn btn-whatsapp">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Falar com Corretor
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-item animate-on-scroll delay-1 hover-lift">
+                <div class="stat-number">21.000+</div>
+                <div class="stat-label">Unidades Lançadas</div>
+            </div>
+            <div class="stat-item animate-on-scroll delay-2 hover-lift">
+                <div class="stat-number">30</div>
+                <div class="stat-label">Cidades</div>
+            </div>
+            <div class="stat-item animate-on-scroll delay-3 hover-lift">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Estados</div>
+            </div>
+            <div class="stat-item animate-on-scroll delay-4 hover-lift">
+                <div class="stat-number">7.3M</div>
+                <div class="stat-label">m² Urbanizados</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="sobre">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Por que escolher o Bem Viver Campos?</h2>
+                <p>Um empreendimento pensado para você e sua família viverem com qualidade, segurança e conforto.</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-content animate-on-scroll slide-in-left">
+                    <h3>Infraestrutura Completa</h3>
+                    <p>O Bem Viver Campos é um bairro planejado que oferece toda a estrutura necessária para você construir o lar dos seus sonhos. Com moderno sistema de utilidades e espaços pensados para o convívio familiar.</p>
+
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="about-feature-icon">✓</div>
+                            <span>Rede de água e esgoto</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="about-feature-icon">✓</div>
+                            <span>Iluminação pública</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="about-feature-icon">✓</div>
+                            <span>Vias 100% asfaltadas</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="about-feature-icon">✓</div>
+                            <span>Áreas verdes</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="about-feature-icon">✓</div>
+                            <span>Projeto paisagístico</span>
+                        </div>
+                        <div class="about-feature">
+                            <div class="about-feature-icon">✓</div>
+                            <span>Praças e lazer</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                        <a href="https://wa.me/5522997944778?text=Olá! Gostaria de simular um lote no Bem Viver Campos." class="btn btn-primary">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z"/></svg>
+                            Simular Agora
+                        </a>
+                        <a href="#contato" class="btn btn-secondary">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            Falar com Corretor
+                        </a>
+                    </div>
+                </div>
+
+                <div class="about-image animate-on-scroll slide-in-right hover-lift">
+                    <img src="https://bemvivercampos.urbaloteamentos.com.br/wp-content/uploads/2025/07/foto-bem-viver-campos-02.webp" alt="Bem Viver Campos - Vista Aérea">
+                    <div class="about-image-badge">
+                        <span class="number">160-250</span>
+                        <span>m² por lote</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="galeria">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Galeria do Empreendimento</h2>
+                <p>Veja mais detalhes do Bem Viver Campos e imagine sua vida aqui.</p>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid">
+                <div class="gallery-item animate-on-scroll delay-1 hover-scale" style="grid-column: span 2; grid-row: span 2;">
+                    <img src="images/empreendimento/foto-bem-viver-campos-01.webp" alt="Vista Geral">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-2 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-02.webp" alt="Infraestrutura">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-2 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-03.webp" alt="Áreas Verdes">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-3 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-04.webp" alt="Ruas">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-3 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-05.webp" alt="Praças">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-4 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-06.webp" alt="Entrada">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-4 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-07.webp" alt="Playground">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-4 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-08.webp" alt="Área de Lazer">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-4 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-09.webp" alt="Lotes">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-4 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-10.webp" alt="Perspectiva">
+                </div>
+                <div class="gallery-item animate-on-scroll delay-4 hover-scale">
+                    <img src="images/empreendimento/foto-bem-viver-campos-11.webp" alt="Família">
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="https://wa.me/5522997944778?text=Olá! Gostaria de simular um lote no Bem Viver Campos." class="btn btn-primary animate-on-scroll">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z"/></svg>
+                    Simular Agora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="localizacao">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Localização Privilegiada</h2>
+                <p>Tudo o que você precisa pertinho do seu novo lar.</p>
+            </div>
+
+            <!-- Donana Neighborhood Info -->
+            <div class="donana-section animate-on-scroll" style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-bottom: 50px; text-align: center;">
+                <h3 style="font-size: 1.8rem; margin-bottom: 15px; color: var(--accent);">🏘️ Bairro Donana</h3>
+                <p style="font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin: 0 auto 20px; line-height: 1.8;">
+                    O bairro está localizado próximo ao <strong>Parque Tropical</strong>, em uma região promissora da cidade e a apenas <strong>15 minutos do centro</strong>.
+                    Conta também com acesso facilitado ao comércio e aos serviços no entorno.
+                </p>
+                <p style="font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                    O <strong>Bem Viver Campos</strong> é um endereço privilegiado porque oferece <strong>lotes residenciais e comerciais</strong>,
+                    assim o morador conta com lazer, bens e serviços no próprio bairro.
+                </p>
+            </div>
+
+            <div class="location-grid">
+                <div class="location-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3717.556634456784!2d-41.32082392485369!3d-21.29769638072433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xbbtemp!2sCampos%20dos%20Goytacazes%2C%20RJ!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+
+                <div class="location-info">
+                    <h3>Próximo aos principais serviços</h3>
+                    <p>O Bem Viver Campos está estrategicamente localizado em uma das regiões de maior crescimento de Campos dos Goytacazes, com fácil acesso a tudo o que você precisa no dia a dia.</p>
+
+                    <div class="location-advantages">
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🏥</div>
+                            <span>Hospital Ferreira Machado</span>
+                        </div>
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🏫</div>
+                            <span>Colégios Públicos e Privados</span>
+                        </div>
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🛒</div>
+                            <span>Supermercado Extra</span>
+                        </div>
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🏥</div>
+                            <span>UPA de Guarus</span>
+                        </div>
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🛍️</div>
+                            <span>Shopping Boulevard Campos</span>
+                        </div>
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🍽️</div>
+                            <span>Restaurantes e Padarias</span>
+                        </div>
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🌳</div>
+                            <span>Parques e Áreas Verdes</span>
+                        </div>
+                        <div class="location-advantage">
+                            <div class="location-advantage-icon">🛣️</div>
+                            <span>Fácil Acesso</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                        <a href="https://wa.me/5522997944778?text=Olá! Gostaria de simular um lote no Bem Viver Campos." class="btn btn-primary" style="background: var(--primary);">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z"/></svg>
+                            Simular Agora
+                        </a>
+                        <a href="#contato" class="btn" style="background: rgba(255,255,255,0.2); color: white;">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            Falar com Corretor
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contato">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Fale com Nosso Corretor</h2>
+                <p>Estamos prontos para ajudar você a realizar o sonho da casa própria.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-card animate-on-scroll delay-1 hover-lift">
+                    <div class="corretor-photo">
+                        <img src="images/corretor/cleber.jpg" alt="Cleber Maciel - Corretor">
+                    </div>
+
+                    <div class="corretor-info">
+                        <div class="corretor-name">Cleber Maciel</div>
+                        <div class="corretor-creci">CRECI 92622</div>
+                    </div>
+
+                    <p class="corretor-description">
+                        Especialista em bairros planejados, com ampla experiência na região norte-fluminense. Acompanho cada cliente do primeiro contato até a entrega das chaves — sem intermediários.
+                    </p>
+
+                    <div class="contact-options">
+                        <a href="tel:22997944778" class="contact-option">
+                            <div class="contact-option-icon">📱</div>
+                            <div class="contact-option-text">
+                                <div class="contact-option-label">Telefone</div>
+                                <div class="contact-option-value">(22) 99794-4778</div>
+                            </div>
+                        </a>
+                        <a href="https://wa.me/5522997944778" class="contact-option">
+                            <div class="contact-option-icon">💬</div>
+                            <div class="contact-option-text">
+                                <div class="contact-option-label">WhatsApp</div>
+                                <div class="contact-option-value">(22) 99794-4778</div>
+                            </div>
+                        </a>
+                        <a href="https://instagram.com/cleber_corretorcampista" class="contact-option">
+                            <div class="contact-option-icon">📷</div>
+                            <div class="contact-option-text">
+                                <div class="contact-option-label">Instagram</div>
+                                <div class="contact-option-value">@cleber_corretorcampista</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form animate-on-scroll delay-2 hover-lift">
+                    <h3>Fale com Nosso Corretor</h3>
+                    <p class="subtitle">Estamos prontos para ajudar você a realizar o sonho da casa própria.</p>
+
+                    <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 30px;">
+                        <a href="https://wa.me/5522997944778?text=Olá! Gostaria de simular um lote no Bem Viver Campos." class="btn btn-primary" style="justify-content: center;">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z"/></svg>
+                            Simular Agora
+                        </a>
+                        <a href="https://wa.me/5522997944778" class="btn btn-whatsapp" style="justify-content: center;">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            Falar com Corretor
+                        </a>
+                        <a href="tel:22997944778" class="btn btn-secondary" style="justify-content: center;">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                            Ligar Agora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <span class="logo-text">Bem <span>Viver</span></span>
+                    <p>Lotes residenciais em bairro planejado em Campos dos Goytacazes. Financiamento direto com a Urba (Grupo MRV&CO).</p>
+                </div>
+                <div class="footer-links-section">
+                    <h4 class="footer-title">Links Rápidos</h4>
+                    <ul class="footer-links">
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#galeria">Galeria</a></li>
+                        <li><a href="#localizacao">Localização</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-section">
+                    <h4 class="footer-title">Contato</h4>
+                    <ul class="footer-links">
+                        <li>📱 (22) 99794-4778</li>
+                        <li>📧 contato@bemviver.com.br</li>
+                        <li>📍 Estr. dos Ceramistas</li>
+                        <li>Campos dos Goytacazes - RJ</li>
+                    </ul>
+                </div>
+                <div class="footer-links-section">
+                    <h4 class="footer-title">Desenvolvedor</h4>
+                    <ul class="footer-links">
+                        <li>Urba (Grupo MRV&CO)</li>
+                        <li>Atuando desde 2012</li>
+                        <li>21.000+ unidades</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Bem Viver Campos. Todos os direitos reservados.</p>
+                <div class="footer-social">
+                    <a href="https://wa.me/5522997944778" aria-label="WhatsApp">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </a>
+                    <a href="https://instagram.com/cleber_corretorcampista" aria-label="Instagram">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">✕</button>
+            <img src="assets/poup-up2.png" alt="Bem Viver Campos" class="popup-image">
+            <div class="popup-body">
+                <h3>🏠 Seu Novo Lote Espera por Você!</h3>
+                <p>Transforme seus sonhos em realidade no <strong>Bem Viver Campos</strong>. Lotes de 160 a 250m² em bairro planejado com infraestrutura completa.</p>
+                <div class="popup-buttons">
+                    <a href="https://wa.me/5522997944778?text=Olá! Vim pelo site e quero falar com o corretor sobre o Bem Viver Campos." class="popup-btn popup-btn-primary">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Falar com Corretor
+                    </a>
+                    <a href="https://wa.me/5522997944778?text=Olá! Gostaria de simular um lote no Bem Viver Campos." class="popup-btn popup-btn-secondary">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z"/></svg>
+                        Simular Agora
+                    </a>
+                </div>
+                <p class="popup-note">Atendimento <span>Seg-Sex: 8h às 18h</span> | <span>Sáb: 8h às 12h</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <div class="floating-cta">
+        <a href="https://wa.me/5522997944778" class="floating-whatsapp" aria-label="WhatsApp">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+    </div>
+
+    <script>
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Popup functions
+        function closePopup() {
+            document.getElementById('popup').classList.remove('active');
+        }
+
+        // Show popup after 3 seconds
+        setTimeout(function() {
+            if (!localStorage.getItem('popupShown')) {
+                document.getElementById('popup').classList.add('active');
+                localStorage.setItem('popupShown', 'true');
+            }
+        }, 3000);
+
+        // Close popup when clicking outside
+        document.getElementById('popup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Show floating CTA on scroll
+        window.addEventListener('scroll', function() {
+            const floatingCta = document.querySelector('.floating-cta');
+            if (window.scrollY > 500) {
+                floatingCta.style.display = 'block';
+            } else {
+                floatingCta.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
